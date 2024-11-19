@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "org.iesharia.composeroomapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "org.iesharia.composeroomapp"
@@ -41,9 +41,18 @@ android {
 }
 
 dependencies {
-// Room
+    // Jetpack Compose
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx.v252)
+
+    // Room
     ksp (libs.androidx.room.compiler)
 
+    implementation(libs.androidx.material.v151)
+
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
