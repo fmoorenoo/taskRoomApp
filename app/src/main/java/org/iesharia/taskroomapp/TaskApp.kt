@@ -10,6 +10,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Add
+
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -61,7 +63,7 @@ fun TaskApp(database: AppDatabase) {
             )
 
             Spacer(modifier = Modifier.width(8.dp))
-            Button(
+            IconButton(
                 onClick = {
                     if (newTaskName.isNotBlank()) {
                         scope.launch(Dispatchers.IO) {
@@ -72,10 +74,14 @@ fun TaskApp(database: AppDatabase) {
                         }
                     }
                 },
-                modifier = Modifier.size(56.dp)
             ) {
-                Text("+")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add",
+                    modifier = Modifier.size(40.dp)
+                )
             }
+
         }
 
         Spacer(modifier = Modifier.height(16.dp))
