@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -116,6 +117,8 @@ fun TaskApp(database: AppDatabase) {
 
 @Composable
 fun TaskCard(task: Task, onDelete: () -> Unit) {
+    var name: String = task.name
+
     Card(
         modifier = Modifier
             .fillMaxWidth(),
@@ -131,7 +134,8 @@ fun TaskCard(task: Task, onDelete: () -> Unit) {
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "Task",
@@ -145,11 +149,16 @@ fun TaskCard(task: Task, onDelete: () -> Unit) {
                 Text(
                     text = "ID-${task.id}",
                     fontWeight = FontWeight(500),
-                    )
+                    fontSize = 17.sp
+                )
+            }
+            if ((task.name).length > 10) {
+                name = (task.name).substring(0, 10) + "..."
             }
             Text(
-                text = task.name,
-                modifier = Modifier.padding(4.dp)
+                text = name.uppercase(),
+                modifier = Modifier.padding(4.dp),
+                fontSize = 18.sp
             )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
