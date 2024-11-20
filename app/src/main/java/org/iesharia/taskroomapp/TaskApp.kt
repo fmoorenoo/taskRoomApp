@@ -70,7 +70,23 @@ fun TaskApp(database: AppDatabase) {
             modifier = Modifier.fillMaxSize(),
         ) {
             items(tasks) { task ->
+                TaskCard(
+                    task = task,
+                    onDelete = {
+                        scope.launch(Dispatchers.IO) {
+                            taskDao.delete(task)
+                            tasks = taskDao.getAllTasks()
+                        }
+                    }
+                )
             }
         }
     }
+}
+
+@Composable
+fun TaskCard(task: Task, onDelete: () -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+    ) {}
 }
