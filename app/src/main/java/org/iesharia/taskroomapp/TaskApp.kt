@@ -10,6 +10,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Create
 
 import androidx.compose.material3.*
@@ -43,7 +45,6 @@ fun TaskApp(database: AppDatabase) {
             .fillMaxSize()
             .background(Color(0xFFB6D8C1))
             .padding(16.dp)
-
     ) {
         Text(
             text = "Lista de tareas",
@@ -85,10 +86,8 @@ fun TaskApp(database: AppDatabase) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add",
-                    modifier = Modifier.size(40.dp)
                 )
             }
-
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -108,6 +107,13 @@ fun TaskApp(database: AppDatabase) {
                             taskDao.delete(task)
                             tasks = taskDao.getAllTasks()
                         }
+                    },
+                    onEdit = { newName ->
+                        scope.launch(Dispatchers.IO) {
+                            val updatedTask = task.copy(name = newName)
+                            taskDao.update(updatedTask)
+                            tasks = taskDao.getAllTasks()
+                        }
                     }
                 )
             }
@@ -116,8 +122,10 @@ fun TaskApp(database: AppDatabase) {
 }
 
 @Composable
-fun TaskCard(task: Task, onDelete: () -> Unit) {
+fun TaskCard(task: Task, onDelete: () -> Unit, onEdit: (String) -> Unit) {
     var name: String = task.name
+    var edit by remember { mutableStateOf(false) }
+    var editText by remember { mutableStateOf(name) }
 
     Card(
         modifier = Modifier
@@ -125,7 +133,7 @@ fun TaskCard(task: Task, onDelete: () -> Unit) {
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFDAF4E2)
         ),
-        shape = RoundedCornerShape(4.dp)
+        shape = RoundedCornerShape(5.dp)
     ) {
         Column(
             modifier = Modifier
@@ -155,22 +163,45 @@ fun TaskCard(task: Task, onDelete: () -> Unit) {
             if ((task.name).length > 10) {
                 name = (task.name).substring(0, 10) + "..."
             }
-            Text(
-                text = name.uppercase(),
-                modifier = Modifier.padding(4.dp),
-                fontSize = 17.sp
-            )
+
+            if (edit) {
+                OutlinedTextField(
+                    value = editText,
+                    onValueChange = { editText = it },
+                    label = { Text("Task Name") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    IconButton(onClick = {
+                        onEdit(editText)
+                        edit = false
+                    }) {Icon(Icons.Default.Check, contentDescription = "Save")}
+
+                    IconButton(onClick = {
+                        edit = false
+                        editText = task.name
+                    }) {Icon(Icons.Default.Close, contentDescription = "Cancel")}
+                }
+            } else {
+                Text(
+                    text = name.uppercase(),
+                    modifier = Modifier.padding(4.dp),
+                    fontSize = 17.sp
+                )
+            }
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom,
                 modifier = Modifier.fillMaxSize()
             ) {
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.Create, contentDescription = "Settings", tint = Color(0xFF3871AB))
+                IconButton(onClick = { edit = true }) {
+                    Icon(Icons.Default.Create, contentDescription = "Edit", tint = Color(0xFF3871AB))
                 }
                 IconButton(onClick = onDelete) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFB93E3E)
-                    )
+                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFB93E3E))
                 }
             }
         }
