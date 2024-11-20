@@ -109,7 +109,7 @@ fun TaskCard(task: Task, onDelete: () -> Unit) {
                 Button(onClick = {}) {
                     Icon(Icons.Default.Settings, contentDescription = "Settings")
                 }
-                Button(onClick = {}) {
+                Button(onClick = onDelete) {
                     Icon(Icons.Default.Delete, contentDescription = "Delete")
                 }
             }
