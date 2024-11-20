@@ -1,11 +1,8 @@
-package org.iesharia.composeroomapp
+package org.iesharia.taskroomapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 

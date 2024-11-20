@@ -1,4 +1,4 @@
-package org.iesharia.composeroomapp
+package org.iesharia.taskroomapp
 
 import org.junit.Test
 

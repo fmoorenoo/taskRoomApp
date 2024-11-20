@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "org.iesharia.composeroomapp"
+    namespace = "org.iesharia.taskroomapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "org.iesharia.composeroomapp"
+        applicationId = "org.iesharia.taskroomapp"
         minSdk = 27
         targetSdk = 34
         versionCode = 1
