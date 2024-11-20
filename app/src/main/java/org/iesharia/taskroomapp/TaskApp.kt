@@ -106,10 +106,10 @@ fun TaskCard(task: Task, onDelete: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Button(onClick = {}) {
+                IconButton(onClick = {}) {
                     Icon(Icons.Default.Settings, contentDescription = "Settings")
                 }
-                Button(onClick = onDelete) {
+                IconButton(onClick = onDelete) {
                     Icon(Icons.Default.Delete, contentDescription = "Delete")
                 }
             }
