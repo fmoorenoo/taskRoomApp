@@ -160,9 +160,6 @@ fun TaskCard(task: Task, onDelete: () -> Unit, onEdit: (String) -> Unit) {
                     fontSize = 17.sp
                 )
             }
-            if ((task.name).length > 10) {
-                name = (task.name).substring(0, 10) + "..."
-            }
 
             if (edit) {
                 OutlinedTextField(
@@ -171,37 +168,44 @@ fun TaskCard(task: Task, onDelete: () -> Unit, onEdit: (String) -> Unit) {
                     label = { Text("Task Name") },
                     modifier = Modifier.fillMaxWidth()
                 )
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    IconButton(onClick = {
-                        onEdit(editText)
-                        edit = false
-                    }) {Icon(Icons.Default.Check, contentDescription = "Save")}
-
-                    IconButton(onClick = {
-                        edit = false
-                        editText = task.name
-                    }) {Icon(Icons.Default.Close, contentDescription = "Cancel")}
-                }
             } else {
+                if (task.name.length > 10) {
+                    name = task.name.substring(0, 10) + "..."
+                }
+
                 Text(
                     text = name.uppercase(),
                     modifier = Modifier.padding(4.dp),
                     fontSize = 17.sp
                 )
             }
+
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom,
                 modifier = Modifier.fillMaxSize()
             ) {
-                IconButton(onClick = { edit = true }) {
-                    Icon(Icons.Default.Create, contentDescription = "Edit", tint = Color(0xFF3871AB))
-                }
-                IconButton(onClick = onDelete) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFB93E3E))
+                if (edit) {
+                    IconButton(onClick = {
+                        onEdit(editText)
+                        edit = false
+                    }) {
+                        Icon(Icons.Default.Check, contentDescription = "Save", tint = Color(0xFF4CAF50))
+                    }
+
+                    IconButton(onClick = {
+                        edit = false
+                        editText = task.name
+                    }) {
+                        Icon(Icons.Default.Close, contentDescription = "Cancel", tint = Color(0xFFFF5722))
+                    }
+                } else {
+                    IconButton(onClick = { edit = true }) {
+                        Icon(Icons.Default.Create, contentDescription = "Edit", tint = Color(0xFF3871AB))
+                    }
+                    IconButton(onClick = onDelete) {
+                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFB93E3E))
+                    }
                 }
             }
         }
