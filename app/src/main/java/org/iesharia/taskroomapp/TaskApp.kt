@@ -1,5 +1,6 @@
 package org.iesharia.taskroomapp
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +29,7 @@ fun TaskApp(database: AppDatabase) {
     val scope = rememberCoroutineScope()
     var tasks by remember { mutableStateOf(listOf<Task>()) }
     var newTaskName by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     // Cargar tareas al iniciar
     LaunchedEffect(Unit) {
@@ -72,6 +75,8 @@ fun TaskApp(database: AppDatabase) {
                             tasks = taskDao.getAllTasks()
                             newTaskName = ""
                         }
+                    } else {
+                        Toast.makeText(context, "Introduce un nombre válido", Toast.LENGTH_SHORT).show()
                     }
                 },
             ) {
