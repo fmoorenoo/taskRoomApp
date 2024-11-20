@@ -1,6 +1,9 @@
 package org.iesharia.taskroomapp
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -57,10 +60,16 @@ fun TaskApp(database: AppDatabase) {
             ) {
                 Text("+")
             }
+        }
 
-            // Mostrar lista de tareas
-            tasks.forEach { task ->
-                Text(text = task.name)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Lista de tareas
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            items(tasks) { task ->
             }
         }
     }
