@@ -2,7 +2,6 @@ package org.iesharia.taskroomapp
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -17,8 +16,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -120,16 +121,35 @@ fun TaskCard(task: Task, onDelete: () -> Unit) {
             .fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFDAF4E2)
-        )
+        ),
+        shape = RoundedCornerShape(4.dp)
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(8.dp)
                 .fillMaxWidth(),
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Task",
+                    fontWeight = FontWeight(500),
+                    modifier = Modifier
+                        .clip(shape = RoundedCornerShape(6.dp))
+                        .background(Color(0xFF83E4A4))
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                )
+
+                Text(
+                    text = "ID-${task.id}",
+                    fontWeight = FontWeight(500),
+                    )
+            }
             Text(
                 text = task.name,
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(4.dp)
             )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
