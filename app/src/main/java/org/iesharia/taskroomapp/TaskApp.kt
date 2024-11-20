@@ -24,36 +24,44 @@ fun TaskApp(database: AppDatabase) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp)
     ) {
-        // Campo de texto para agregar una nueva tarea
-        OutlinedTextField(
-            value = newTaskName,
-            onValueChange = { newTaskName = it },
-            label = { Text("New Task") },
-            modifier = Modifier.fillMaxWidth()
+        Text(
+            text = "Lista de tareas",
+            modifier = Modifier.padding(bottom = 17.dp)
         )
 
-        // Botón para agregar tarea
-        Button(
-            onClick = {
-                scope.launch(Dispatchers.IO) {
-                    val newTask = Task(name = newTaskName)
-                    taskDao.insert(newTask)
-                    // Actualizar la lista
-                    tasks = taskDao.getAllTasks()
-                    newTaskName = ""
-                }
-            }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Add Task")
-        }
+            OutlinedTextField(
+                value = newTaskName,
+                onValueChange = { newTaskName = it },
+                label = { Text("Nueva tarea") },
+                modifier = Modifier.weight(1f)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = {
+                    if (newTaskName.isNotBlank()) {
+                        scope.launch(Dispatchers.IO) {
+                            val newTask = Task(name = newTaskName)
+                            taskDao.insert(newTask)
+                            tasks = taskDao.getAllTasks()
+                            newTaskName = ""
+                        }
+                    }
+                },
+                modifier = Modifier.size(56.dp)
+            ) {
+                Text("+")
+            }
 
-        // Mostrar lista de tareas
-        tasks.forEach { task ->
-            Text(text = task.name)
+            // Mostrar lista de tareas
+            tasks.forEach { task ->
+                Text(text = task.name)
+            }
         }
     }
 }
