@@ -9,8 +9,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Create
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -129,7 +129,7 @@ fun TaskCard(task: Task, onDelete: () -> Unit) {
     ) {
         Column(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(top = 8.dp, start = 8.dp, end = 8.dp)
                 .fillMaxWidth(),
         ) {
             Row(
@@ -158,18 +158,19 @@ fun TaskCard(task: Task, onDelete: () -> Unit) {
             Text(
                 text = name.uppercase(),
                 modifier = Modifier.padding(4.dp),
-                fontSize = 18.sp
+                fontSize = 17.sp
             )
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                verticalAlignment = Alignment.Bottom,
+                modifier = Modifier.fillMaxSize()
             ) {
                 IconButton(onClick = {}) {
-                    Icon(Icons.Default.Settings, contentDescription = "Settings")
+                    Icon(Icons.Default.Create, contentDescription = "Settings", tint = Color(0xFF3871AB))
                 }
                 IconButton(onClick = onDelete) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete")
+                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFB93E3E)
+                    )
                 }
             }
         }
