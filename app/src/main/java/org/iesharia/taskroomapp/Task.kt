@@ -6,6 +6,7 @@ import androidx.room.ForeignKey
 
 @Entity(
     tableName = "tasks",
+    // Fuente: https://stackoverflow.com/questions/47511750/how-to-use-foreign-key-in-room-persistence-library
     foreignKeys = [
         ForeignKey(
             entity = TaskType::class,
