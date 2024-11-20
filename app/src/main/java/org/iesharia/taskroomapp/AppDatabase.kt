@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Task::class], version = 1)
+@Database(entities = [Task::class, TaskType::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao
@@ -20,7 +20,11 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "task_database"
-                ).build()
+                )
+                    // Si cambia la versión de la base de datos, esta se elimina y se recrea con las modificaciones.
+                    .fallbackToDestructiveMigration()
+                    // Esto hace que se pierdan los datos, pero es provisional mientras construyo la app
+                    .build()
                 INSTANCE = instance
                 instance
             }
