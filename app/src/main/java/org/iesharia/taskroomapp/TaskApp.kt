@@ -46,14 +46,23 @@ fun TaskApp(database: AppDatabase) {
             .background(Color(0xFFB6D8C1))
             .padding(16.dp)
     ) {
-        Text(
-            text = "Lista de tareas",
-            modifier = Modifier.padding(bottom = 17.dp)
-        )
+        Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)) {
+            Text(
+                text = "Lista de tareas",
+                fontWeight = FontWeight.Bold,
+                fontSize = 27.sp,
+                color = Color.White,
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(15.dp))
+                    .background(Color(0xFF598D61))
+                    .padding(horizontal = 15.dp, vertical = 7.dp)
+            )
+        }
+
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
         ) {
             OutlinedTextField(
                 value = newTaskName,
@@ -73,7 +82,7 @@ fun TaskApp(database: AppDatabase) {
                 onClick = {
                     if (newTaskName.isNotBlank()) {
                         scope.launch(Dispatchers.IO) {
-                            val newTask = Task(name = newTaskName)
+                            val newTask = Task(name = newTaskName, description = "d", taskTypeId = 1)
                             taskDao.insert(newTask)
                             tasks = taskDao.getAllTasks()
                             newTaskName = ""
