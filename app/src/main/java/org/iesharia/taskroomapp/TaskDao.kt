@@ -29,4 +29,8 @@ import androidx.room.*
 
     @Delete
     suspend fun deleteTaskType(taskType: TaskType)
+
+    @Query("SELECT * FROM task_type WHERE id = :id")
+    fun getTaskTypeById(id: Int): TaskType?
+
 }
