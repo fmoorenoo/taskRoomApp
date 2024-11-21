@@ -56,6 +56,7 @@ fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit
                 Text(
                     text = taskTypeTitle,
                     fontWeight = FontWeight(500),
+                    fontSize = 17.sp,
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(6.dp))
                         .background(Color(0xFF83E4A4))
@@ -77,13 +78,13 @@ fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit
                     modifier = Modifier.fillMaxWidth()
                 )
             } else {
-                if (task.name.length > 10) {
-                    name = task.name.substring(0, 10) + "..."
+                if (task.name.length > 17) {
+                    name = task.name.substring(0, 17) + "..."
                 }
 
                 Text(
-                    text = name.uppercase(),
-                    modifier = Modifier.padding(4.dp),
+                    text = name,
+                    modifier = Modifier.padding(4.dp).padding(top = 5.dp),
                     fontSize = 17.sp
                 )
             }
