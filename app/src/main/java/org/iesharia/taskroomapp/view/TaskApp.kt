@@ -48,7 +48,7 @@ fun TaskApp(database: AppDatabase) {
     ) {
         Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)) {
             Text(
-                text = "Lista de tareas",
+                text = "Inicio",
                 fontWeight = FontWeight.Bold,
                 fontSize = 27.sp,
                 color = Color.White,
@@ -67,7 +67,7 @@ fun TaskApp(database: AppDatabase) {
                 value = newTaskName,
                 onValueChange = { newTaskName = it },
                 label = { Text("Nueva tarea") },
-                modifier = Modifier.weight(3f),
+                modifier = Modifier.weight(2f).padding(end = 5.dp),
                 shape = RoundedCornerShape(20.dp),
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color(0xFFCFF0D9),
@@ -77,7 +77,7 @@ fun TaskApp(database: AppDatabase) {
             OutlinedTextField(
                 value = taskTypeID,
                 onValueChange = { taskTypeID = it },
-                label = { Text("ID") },
+                label = { Text("Tipo(ID)") },
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(20.dp),
                 colors = TextFieldDefaults.colors(
@@ -89,22 +89,30 @@ fun TaskApp(database: AppDatabase) {
             Spacer(modifier = Modifier.width(8.dp))
             IconButton(
                 onClick = {
-                    if (newTaskName.isNotBlank()) {
+                    if (newTaskName.isNotBlank() && taskTypeID.isNotBlank()) {
                         scope.launch(Dispatchers.IO) {
-                            val newTask = Task(name = newTaskName, description = "d", taskTypeId = taskTypeID.toInt())
-                            taskDao.insert(newTask)
-                            tasks = taskDao.getAllTasks()
-                            Log.i("Dam2", "$tasks")
-                            newTaskName = ""
-                            taskTypeID = ""
+                            val taskTypeExists = taskDao.getTaskTypeById(taskTypeID.toInt()) != null
+                            if (taskTypeExists) {
+                                val newTask = Task(name = newTaskName, description = "d", taskTypeId = taskTypeID.toInt())
+                                taskDao.insert(newTask)
+                                tasks = taskDao.getAllTasks()
+                                Log.i("Dam2", "$tasks")
+                                newTaskName = ""
+                                taskTypeID = ""
+                            } else {
+                                scope.launch(Dispatchers.Main) {
+                                    Toast.makeText(context, "ID de tipo de tarea no válido", Toast.LENGTH_SHORT).show()
+                                }
+                            }
                         }
                     } else {
-                        Toast.makeText(context, "Introduce un nombre válido", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Introduce un nombre y un ID válidos", Toast.LENGTH_SHORT).show()
                     }
                 }
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
             }
+
         }
 
         // Input para añadir nuevo tipo de tarea
