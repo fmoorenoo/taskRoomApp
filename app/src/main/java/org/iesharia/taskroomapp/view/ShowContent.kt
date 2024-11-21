@@ -1,12 +1,19 @@
 package org.iesharia.taskroomapp.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.iesharia.taskroomapp.AppDatabase
@@ -26,8 +33,20 @@ fun ShowContent(
 
     Column(modifier = Modifier.fillMaxWidth()) {
         // Lista de tipos de tareas
+        Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)) {
+            Text(
+                text = "Tipos",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                color = Color.White,
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(15.dp))
+                    .background(Color(0xFF598D61))
+                    .padding(horizontal = 15.dp, vertical = 7.dp)
+            )
+        }
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
+            columns = GridCells.Fixed(1),
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(5.dp),
             horizontalArrangement = Arrangement.spacedBy(5.dp)
@@ -51,7 +70,21 @@ fun ShowContent(
                 )
             }
         }
+        Spacer(modifier = Modifier.height(15.dp))
 
+        // Lista de tareas
+        Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)) {
+            Text(
+                text = "Tareas",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                color = Color.White,
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(15.dp))
+                    .background(Color(0xFF598D61))
+                    .padding(horizontal = 15.dp, vertical = 7.dp)
+            )
+        }
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxSize(),
