@@ -22,12 +22,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.iesharia.taskroomapp.Task
+import org.iesharia.taskroomapp.TaskType
 
 @Composable
-fun TaskCard(task: Task, onDelete: () -> Unit, onEdit: (String) -> Unit) {
+fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit: (String) -> Unit) {
     var name: String = task.name
     var edit by remember { mutableStateOf(false) }
     var editText by remember { mutableStateOf(name) }
+
+    // Buscar el tipo de tarea mediante el ID
+    val searchTaskType = taskTypes.find { it.id == task.taskTypeId }
+    // Si encuentra el id, almacena el título correspondiente. Si no, se le asigna 'Sin tipo'
+    val taskTypeTitle = if (searchTaskType != null) {searchTaskType.title} else {"Sin tipo"}
 
     Card(
         modifier = Modifier
@@ -48,7 +54,7 @@ fun TaskCard(task: Task, onDelete: () -> Unit, onEdit: (String) -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Task",
+                    text = taskTypeTitle,
                     fontWeight = FontWeight(500),
                     modifier = Modifier
                         .clip(shape = RoundedCornerShape(6.dp))
