@@ -23,18 +23,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.iesharia.taskroomapp.AppDatabase
 import org.iesharia.taskroomapp.Task
+import org.iesharia.taskroomapp.TaskType
 
 @Composable
 fun TaskApp(database: AppDatabase) {
     val taskDao = database.taskDao()
     val scope = rememberCoroutineScope()
     var tasks by remember { mutableStateOf(listOf<Task>()) }
+    var task_types by remember { mutableStateOf(listOf<TaskType>()) }
     var newTaskName by remember { mutableStateOf("") }
     val context = LocalContext.current
 
-    // Cargar tareas al iniciar
+    // Cargar tareas y tipos de tareas al iniciar
     LaunchedEffect(Unit) {
         tasks = taskDao.getAllTasks()
+        task_types = taskDao.getAllTaskTypes()
     }
     Column(
         modifier = Modifier
@@ -96,31 +99,62 @@ fun TaskApp(database: AppDatabase) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Lista de tareas
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            items(tasks) { task ->
-                TaskCard(
-                    task = task,
-                    onDelete = {
-                        scope.launch(Dispatchers.IO) {
-                            taskDao.delete(task)
-                            tasks = taskDao.getAllTasks()
+        Column(modifier = Modifier.fillMaxWidth()){
+            // Lista de tipos de tareas
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(task_types) { task_type ->
+                    TaskTypeCard(
+                        task_type = task_type,
+                        onDelete = {
+                            scope.launch(Dispatchers.IO) {
+                                taskDao.deleteTaskType(task_type)
+                                task_types = taskDao.getAllTaskTypes()
+                            }
+                        },
+                        onEdit = { newTitle ->
+                            scope.launch(Dispatchers.IO) {
+                                val updatedTaskType = task_type.copy(title = newTitle)
+                                taskDao.updateTaskType(updatedTaskType)
+                                task_types = taskDao.getAllTaskTypes()
+                            }
                         }
-                    },
-                    onEdit = { newName ->
-                        scope.launch(Dispatchers.IO) {
-                            val updatedTask = task.copy(name = newName)
-                            taskDao.update(updatedTask)
-                            tasks = taskDao.getAllTasks()
+                    )
+                }
+            }
+
+
+            // Lista de tareas
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(tasks) { task ->
+                    TaskCard(
+                        task = task,
+                        onDelete = {
+                            scope.launch(Dispatchers.IO) {
+                                taskDao.delete(task)
+                                tasks = taskDao.getAllTasks()
+                            }
+                        },
+                        onEdit = { newName ->
+                            scope.launch(Dispatchers.IO) {
+                                val updatedTask = task.copy(name = newName)
+                                taskDao.update(updatedTask)
+                                tasks = taskDao.getAllTasks()
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
+
     }
 }
