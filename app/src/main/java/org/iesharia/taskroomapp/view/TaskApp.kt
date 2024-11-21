@@ -32,6 +32,7 @@ fun TaskApp(database: AppDatabase) {
     var tasks by remember { mutableStateOf(listOf<Task>()) }
     var task_types by remember { mutableStateOf(listOf<TaskType>()) }
     var newTaskName by remember { mutableStateOf("") }
+    var newTaskTypeName by remember { mutableStateOf("")}
     val context = LocalContext.current
 
     // Cargar tareas y tipos de tareas al iniciar
@@ -96,6 +97,45 @@ fun TaskApp(database: AppDatabase) {
                 )
             }
         }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
+        ) {
+            OutlinedTextField(
+                value = newTaskTypeName,
+                onValueChange = { newTaskTypeName = it },
+                label = { Text("Nuevo tipo de tarea") },
+                modifier = Modifier
+                    .weight(1f),
+                shape = RoundedCornerShape(20.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFFCFF0D9),
+                    unfocusedContainerColor = Color(0xFFCFF0D9)
+                )
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+            IconButton(
+                onClick = {
+                    if (newTaskTypeName.isNotBlank()) {
+                        scope.launch(Dispatchers.IO) {
+                            val newTaskType = TaskType(title = newTaskTypeName)
+                            taskDao.insertTaskType(newTaskType)
+                            task_types = taskDao.getAllTaskTypes()
+                            newTaskTypeName = ""
+                        }
+                    } else {
+                        Toast.makeText(context, "Introduce un nombre válido", Toast.LENGTH_SHORT).show()
+                    }
+                },
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add",
+                )
+            }
+        }
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
