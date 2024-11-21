@@ -31,49 +31,49 @@ fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> 
         modifier = Modifier
             .fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFDAF4E2)
+            containerColor = Color(0xFFCFF0D9)
         ),
         shape = RoundedCornerShape(5.dp)
     ) {
-        Column(
+        Row(
             modifier = Modifier
-                .padding(top = 8.dp, start = 8.dp, end = 8.dp)
+                .padding(8.dp)
                 .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f)
             ) {
                 if (edit) {
                     OutlinedTextField(
                         value = editText,
                         onValueChange = { editText = it },
-                        label = { Text("Task Name") },
-                        modifier = Modifier.fillMaxWidth()
+                        label = { Text("Edit title") },
+                        modifier = Modifier.weight(1f)
                     )
                 } else {
                     if (task_type.title.length > 10) {
                         name = task_type.title.substring(0, 10) + "..."
                     }
                     Text(
-                        text = name.uppercase(),
-                        modifier = Modifier.padding(4.dp),
-                        fontSize = 17.sp
+                        text = name,
+                        fontSize = 16.sp,
+                        modifier = Modifier.weight(1f)
                     )
                 }
 
                 Text(
                     text = "ID-${task_type.id}",
                     fontWeight = FontWeight(500),
-                    fontSize = 17.sp
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(start = 8.dp)
                 )
             }
-
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom,
-                modifier = Modifier.fillMaxSize()
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 if (edit) {
                     IconButton(onClick = {
