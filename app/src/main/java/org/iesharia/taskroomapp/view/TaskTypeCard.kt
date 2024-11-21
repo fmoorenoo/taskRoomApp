@@ -1,6 +1,5 @@
 package org.iesharia.taskroomapp.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -16,12 +15,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.iesharia.taskroomapp.Task
 import org.iesharia.taskroomapp.TaskType
 
 @Composable
@@ -48,37 +45,27 @@ fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> 
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Task",
-                    fontWeight = FontWeight(500),
-                    modifier = Modifier
-                        .clip(shape = RoundedCornerShape(6.dp))
-                        .background(Color(0xFF83E4A4))
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                )
+                if (edit) {
+                    OutlinedTextField(
+                        value = editText,
+                        onValueChange = { editText = it },
+                        label = { Text("Task Name") },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                } else {
+                    if (task_type.title.length > 10) {
+                        name = task_type.title.substring(0, 10) + "..."
+                    }
+                    Text(
+                        text = name.uppercase(),
+                        modifier = Modifier.padding(4.dp),
+                        fontSize = 17.sp
+                    )
+                }
 
                 Text(
                     text = "ID-${task_type.id}",
                     fontWeight = FontWeight(500),
-                    fontSize = 17.sp
-                )
-            }
-
-            if (edit) {
-                OutlinedTextField(
-                    value = editText,
-                    onValueChange = { editText = it },
-                    label = { Text("Task Name") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            } else {
-                if (task_type.title.length > 10) {
-                    name = task_type.title.substring(0, 10) + "..."
-                }
-
-                Text(
-                    text = name.uppercase(),
-                    modifier = Modifier.padding(4.dp),
                     fontSize = 17.sp
                 )
             }
