@@ -58,7 +58,7 @@ fun TaskApp(database: AppDatabase) {
                     .padding(horizontal = 15.dp, vertical = 7.dp)
             )
         }
-        // Input para añadir nueva tarea
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
@@ -108,14 +108,20 @@ fun TaskApp(database: AppDatabase) {
                     } else {
                         Toast.makeText(context, "Introduce un nombre y un ID válidos", Toast.LENGTH_SHORT).show()
                     }
-                }
+                },
+                modifier = Modifier.size(50.dp)
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add",
+                    tint = Color(0xFF598D61),
+                    modifier = Modifier.size(50.dp)
+                )
             }
+
 
         }
 
-        // Input para añadir nuevo tipo de tarea
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
@@ -143,11 +149,16 @@ fun TaskApp(database: AppDatabase) {
                             newTaskTypeName = ""
                         }
                     } else {
-                        Toast.makeText(context, "Introduce un nombre válido", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Introduce un tipo válido", Toast.LENGTH_SHORT).show()
                     }
-                }
+                }, modifier = Modifier.size(50.dp)
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add",
+                    tint = Color(0xFF598D61),
+                    modifier = Modifier.size(50.dp)
+                )
             }
         }
 
