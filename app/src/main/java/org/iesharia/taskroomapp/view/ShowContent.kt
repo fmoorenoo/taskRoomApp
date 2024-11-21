@@ -28,7 +28,7 @@ fun ShowContent(
         // Lista de tipos de tareas
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(5.dp),
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
@@ -52,7 +52,6 @@ fun ShowContent(
             }
         }
 
-        // Lista de tareas
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier.fillMaxSize(),
@@ -62,6 +61,7 @@ fun ShowContent(
             items(tasks) { task ->
                 TaskCard(
                     task = task,
+                    taskTypes = taskTypes,
                     onDelete = {
                         scope.launch(Dispatchers.IO) {
                             taskDao.delete(task)
