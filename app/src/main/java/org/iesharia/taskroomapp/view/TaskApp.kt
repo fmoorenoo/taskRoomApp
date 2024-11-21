@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.iesharia.taskroomapp.AppDatabase
-import org.iesharia.taskroomapp.Task
-import org.iesharia.taskroomapp.TaskType
+import org.iesharia.taskroomapp.model.AppDatabase
+import org.iesharia.taskroomapp.model.Task
+import org.iesharia.taskroomapp.model.TaskType
 
 @Composable
 fun TaskApp(database: AppDatabase) {

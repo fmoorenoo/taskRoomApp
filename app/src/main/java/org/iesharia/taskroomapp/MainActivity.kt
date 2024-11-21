@@ -3,6 +3,7 @@ package org.iesharia.taskroomapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import org.iesharia.taskroomapp.model.AppDatabase
 import org.iesharia.taskroomapp.view.TaskApp
 
 class MainActivity : ComponentActivity() {

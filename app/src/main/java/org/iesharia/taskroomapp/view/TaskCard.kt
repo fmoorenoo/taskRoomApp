@@ -21,8 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.iesharia.taskroomapp.Task
-import org.iesharia.taskroomapp.TaskType
+import org.iesharia.taskroomapp.model.Task
+import org.iesharia.taskroomapp.model.TaskType
 
 @Composable
 fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit: (String) -> Unit) {

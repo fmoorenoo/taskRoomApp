@@ -1,4 +1,4 @@
-package org.iesharia.taskroomapp
+package org.iesharia.taskroomapp.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

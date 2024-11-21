@@ -1,4 +1,4 @@
-package org.iesharia.taskroomapp
+package org.iesharia.taskroomapp.model
 
 import android.content.Context
 import androidx.room.Database
