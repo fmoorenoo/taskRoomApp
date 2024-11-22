@@ -3,6 +3,7 @@ package org.iesharia.taskroomapp.view
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -32,6 +33,8 @@ fun TaskApp(database: AppDatabase) {
     var newTaskName by remember { mutableStateOf("") }
     var newTaskTypeName by remember { mutableStateOf("") }
     var taskTypeID by remember { mutableStateOf("") }
+    var newTaskDescription by remember { mutableStateOf("") }
+    var showDescription by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
     // Cargar tareas y tipos de tareas al iniciar
@@ -93,12 +96,13 @@ fun TaskApp(database: AppDatabase) {
                         scope.launch(Dispatchers.IO) {
                             val taskTypeExists = taskDao.getTaskTypeById(taskTypeID.toInt()) != null
                             if (taskTypeExists) {
-                                val newTask = Task(name = newTaskName, description = "d", taskTypeId = taskTypeID.toInt())
+                                val newTask = Task(name = newTaskName, description = newTaskDescription, taskTypeId = taskTypeID.toInt())
                                 taskDao.insert(newTask)
                                 tasks = taskDao.getAllTasks()
                                 Log.i("Dam2", "$tasks")
                                 newTaskName = ""
                                 taskTypeID = ""
+                                newTaskDescription = ""
                             } else {
                                 scope.launch(Dispatchers.Main) {
                                     Toast.makeText(context, "ID de tipo de tarea no válido", Toast.LENGTH_SHORT).show()
@@ -118,8 +122,39 @@ fun TaskApp(database: AppDatabase) {
                     modifier = Modifier.size(50.dp)
                 )
             }
+        }
 
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
+        ) {
+            if (showDescription) {
+                OutlinedTextField(
+                    value = newTaskDescription,
+                    onValueChange = { newTaskDescription = it },
+                    label = { Text("Descripción") },
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color(0xFFCFF0D9),
+                        unfocusedContainerColor = Color(0xFFCFF0D9)
+                    )
+                )
 
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+            Text(
+                text = if (showDescription) "Ocultar" else "Añade una descripción",
+                fontWeight = FontWeight(500),
+                fontSize = 17.sp,
+                color = Color.White,
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(10.dp))
+                    .background(Color(0xFF598D61))
+                    .clickable { showDescription = !showDescription }
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+            )
         }
 
         Row(
