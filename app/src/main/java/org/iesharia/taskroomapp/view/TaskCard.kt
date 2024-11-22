@@ -34,8 +34,9 @@ fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit
     val searchTaskType = taskTypes.find { it.id == task.taskTypeId }
     // Si encuentra el id, almacena el título correspondiente. Si no, se le asigna 'Sin tipo'
     val taskTypeTitle = if (searchTaskType != null) {searchTaskType.title} else {"Sin tipo"}
+    var typeName: String = taskTypeTitle
 
-    Card(
+        Card(
         modifier = Modifier
             .fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -53,8 +54,11 @@ fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                if (taskTypeTitle.length > 9) {
+                    typeName = taskTypeTitle.substring(0, 9) + "..."
+                }
                 Text(
-                    text = taskTypeTitle,
+                    text = typeName,
                     fontWeight = FontWeight(500),
                     fontSize = 17.sp,
                     modifier = Modifier
