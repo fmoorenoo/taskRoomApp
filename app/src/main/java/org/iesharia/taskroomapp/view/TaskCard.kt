@@ -8,6 +8,8 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,10 +27,14 @@ import org.iesharia.taskroomapp.model.Task
 import org.iesharia.taskroomapp.model.TaskType
 
 @Composable
-fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit: (String) -> Unit) {
+fun TaskCard(
+    task: Task,
+    taskTypes: List<TaskType>,
+    onDelete: () -> Unit, onEdit: (String) -> Unit) {
     var name: String = task.name
     var edit by remember { mutableStateOf(false) }
     var editText by remember { mutableStateOf(name) }
+    var showDescription by remember { mutableStateOf(false) }
 
     // Buscar el tipo de tarea mediante el ID
     val searchTaskType = taskTypes.find { it.id == task.taskTypeId }
@@ -36,7 +42,7 @@ fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit
     val taskTypeTitle = if (searchTaskType != null) {searchTaskType.title} else {"Sin tipo"}
     var typeName: String = taskTypeTitle
 
-        Card(
+    Card(
         modifier = Modifier
             .fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -55,7 +61,7 @@ fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 if (taskTypeTitle.length > 9) {
-                    typeName = taskTypeTitle.substring(0, 9) + "..."
+                    typeName = taskTypeTitle.substring(0, 10) + "..."
                 }
                 Text(
                     text = typeName,
@@ -93,6 +99,15 @@ fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit
                 )
             }
 
+            if (showDescription) {
+                Text(
+                    text = task.description,
+                    modifier = Modifier.padding(4.dp),
+                    fontSize = 15.sp,
+                    color = Color.Gray
+                )
+            }
+
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom,
@@ -116,6 +131,15 @@ fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit
                     IconButton(onClick = { edit = true }) {
                         Icon(Icons.Default.Create, contentDescription = "Edit", tint = Color(0xFF3871AB))
                     }
+                    if ((task.description).isNotBlank()) {
+                        IconButton(onClick = { showDescription = !showDescription }) {
+                            Icon(
+                                imageVector = if (showDescription) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                                contentDescription = if (showDescription) "Hide Description" else "Show Description",
+                                tint = Color.Black
+                            )
+                        }
+                    }
                     IconButton(onClick = onDelete) {
                         Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFB93E3E))
                     }
@@ -124,3 +148,4 @@ fun TaskCard(task: Task, taskTypes: List<TaskType>, onDelete: () -> Unit, onEdit
         }
     }
 }
+
