@@ -47,7 +47,7 @@ fun ShowContent(
         }
         LazyVerticalGrid(
             columns = GridCells.Fixed(1),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().height(165.dp),
             verticalArrangement = Arrangement.spacedBy(5.dp),
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
