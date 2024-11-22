@@ -177,7 +177,13 @@ fun TaskApp(database: AppDatabase) {
             Spacer(modifier = Modifier.width(8.dp))
             IconButton(
                 onClick = {
-                    if (newTaskTypeName.isNotBlank()) {
+                    var titleExists = false
+                    taskTypes.forEach {
+                        if (it.title.lowercase() == newTaskTypeName) {
+                            titleExists = true
+                        }
+                    }
+                    if (newTaskTypeName.isNotBlank() && !titleExists) {
                         scope.launch(Dispatchers.IO) {
                             val newTaskType = TaskType(title = newTaskTypeName)
                             taskDao.insertTaskType(newTaskType)
@@ -185,6 +191,9 @@ fun TaskApp(database: AppDatabase) {
                             newTaskTypeName = ""
                         }
                     } else {
+                        if (titleExists) {
+                            Toast.makeText(context, "El tipo de tarea ya existe", Toast.LENGTH_SHORT).show()
+                        }
                         Toast.makeText(context, "Introduce un tipo válido", Toast.LENGTH_SHORT).show()
                     }
                 }, modifier = Modifier.size(50.dp)
