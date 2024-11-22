@@ -44,7 +44,7 @@ fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.weight(1f).padding(horizontal = 15.dp).padding(bottom = 5.dp)
+                modifier = Modifier.weight(1.5f).padding(horizontal = 8.dp).padding(bottom = 5.dp)
             ) {
                 if (edit) {
                     OutlinedTextField(
@@ -54,8 +54,8 @@ fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> 
                         modifier = Modifier.weight(1f)
                     )
                 } else {
-                    if (task_type.title.length > 13) {
-                        name = task_type.title.substring(0, 13) + "..."
+                    if (task_type.title.length > 16) {
+                        name = task_type.title.substring(0, 16) + "..."
                     }
                     Text(
                         text = name,
