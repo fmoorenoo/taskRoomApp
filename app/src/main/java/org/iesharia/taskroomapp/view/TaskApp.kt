@@ -127,6 +127,7 @@ fun TaskApp(database: AppDatabase) {
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
         ) {
             if (showDescription) {
@@ -151,7 +152,7 @@ fun TaskApp(database: AppDatabase) {
                 color = Color.White,
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(10.dp))
-                    .background(Color(0xFF598D61))
+                    .background(Color(0xFF3A83BD))
                     .clickable { showDescription = !showDescription }
                     .padding(horizontal = 8.dp, vertical = 4.dp)
             )
