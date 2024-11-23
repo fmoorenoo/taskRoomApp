@@ -1,5 +1,6 @@
 package org.iesharia.taskroomapp.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -22,16 +23,17 @@ import androidx.compose.ui.unit.sp
 import org.iesharia.taskroomapp.model.TaskType
 
 @Composable
-fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> Unit) {
+fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> Unit, isSelected: Boolean, onSelect: () -> Unit) {
     var name: String = task_type.title
     var edit by remember { mutableStateOf(false) }
     var editText by remember { mutableStateOf(name) }
 
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onSelect() },
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFFCFF0D9)
+            containerColor = if (isSelected) Color(0xFF83E4A4) else Color(0xFFCFF0D9)
         ),
         shape = RoundedCornerShape(5.dp)
     ) {
@@ -54,8 +56,8 @@ fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> 
                         modifier = Modifier.weight(1f)
                     )
                 } else {
-                    if (task_type.title.length > 16) {
-                        name = task_type.title.substring(0, 16) + "..."
+                    if (task_type.title.length > 13) {
+                        name = task_type.title.substring(0, 13) + "..."
                     }
                     Text(
                         text = name,

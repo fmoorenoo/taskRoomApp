@@ -32,7 +32,7 @@ fun TaskApp(database: AppDatabase) {
     var taskTypes by remember { mutableStateOf(listOf<TaskType>()) }
     var newTaskName by remember { mutableStateOf("") }
     var newTaskTypeName by remember { mutableStateOf("") }
-    var taskTypeID by remember { mutableStateOf("") }
+    var selectedTaskTypeId by remember { mutableStateOf<Int?>(null) }
     var newTaskDescription by remember { mutableStateOf("") }
     var showDescription by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -78,8 +78,9 @@ fun TaskApp(database: AppDatabase) {
                 )
             )
             OutlinedTextField(
-                value = taskTypeID,
-                onValueChange = { taskTypeID = it },
+                value = selectedTaskTypeId?.toString() ?: "",
+                onValueChange = {},
+                enabled = false,
                 label = { Text("Tipo(ID)") },
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(20.dp),
@@ -92,25 +93,16 @@ fun TaskApp(database: AppDatabase) {
             Spacer(modifier = Modifier.width(8.dp))
             IconButton(
                 onClick = {
-                    if (newTaskName.isNotBlank() && taskTypeID.isNotBlank()) {
+                    if (newTaskName.isNotBlank() && selectedTaskTypeId != null) {
                         scope.launch(Dispatchers.IO) {
-                            val taskTypeExists = taskDao.getTaskTypeById(taskTypeID.toInt()) != null
-                            if (taskTypeExists) {
-                                val newTask = Task(name = newTaskName, description = newTaskDescription, taskTypeId = taskTypeID.toInt())
-                                taskDao.insert(newTask)
-                                tasks = taskDao.getAllTasks()
-                                Log.i("Dam2", "$tasks")
-                                newTaskName = ""
-                                taskTypeID = ""
-                                newTaskDescription = ""
-                            } else {
-                                scope.launch(Dispatchers.Main) {
-                                    Toast.makeText(context, "ID de tipo de tarea no válido", Toast.LENGTH_SHORT).show()
-                                }
-                            }
+                            val newTask = Task(name = newTaskName, description = newTaskDescription, taskTypeId = selectedTaskTypeId!!)
+                            taskDao.insert(newTask)
+                            tasks = taskDao.getAllTasks()
+                            newTaskName = ""
+                            newTaskDescription = ""
                         }
                     } else {
-                        Toast.makeText(context, "Introduce un nombre y un ID válidos", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Introduce un nombre y selecciona un tipo", Toast.LENGTH_SHORT).show()
                     }
                 },
                 modifier = Modifier.size(50.dp)
@@ -215,7 +207,9 @@ fun TaskApp(database: AppDatabase) {
             tasks = tasks,
             taskTypes = taskTypes,
             onUpdateTasks = { tasks = it },
-            onUpdateTaskTypes = { taskTypes = it }
+            onUpdateTaskTypes = { taskTypes = it },
+            onTaskTypeSelected = { selectedTaskTypeId = it?.id },
+            selectedTaskTypeId = selectedTaskTypeId
         )
     }
 }

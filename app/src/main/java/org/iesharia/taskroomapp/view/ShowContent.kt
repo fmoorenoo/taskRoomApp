@@ -26,7 +26,9 @@ fun ShowContent(
     tasks: List<Task>,
     taskTypes: List<TaskType>,
     onUpdateTasks: (List<Task>) -> Unit,
-    onUpdateTaskTypes: (List<TaskType>) -> Unit
+    onUpdateTaskTypes: (List<TaskType>) -> Unit,
+    onTaskTypeSelected: (TaskType?) -> Unit,
+    selectedTaskTypeId: Int?
 ) {
     val taskDao = database.taskDao()
     val scope = rememberCoroutineScope()
@@ -66,7 +68,9 @@ fun ShowContent(
                             taskDao.updateTaskType(updatedTaskType)
                             onUpdateTaskTypes(taskDao.getAllTaskTypes())
                         }
-                    }
+                    },
+                    isSelected = selectedTaskTypeId == taskType.id,
+                    onSelect = { onTaskTypeSelected(taskType) }
                 )
             }
         }
