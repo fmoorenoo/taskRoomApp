@@ -1,5 +1,6 @@
 package org.iesharia.taskroomapp.view
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,9 +32,12 @@ fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onSelect() },
+            .clickable { onSelect() }
+            .border(width = 2.dp,
+                shape = RoundedCornerShape(5.dp),
+                color = if (isSelected) Color(0xFF6BCC8A) else Color.Unspecified),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) Color(0xFF83E4A4) else Color(0xFFCFF0D9)
+            containerColor = if (isSelected) Color(0xFFB6F4CA) else Color(0xFFCFF0D9)
         ),
         shape = RoundedCornerShape(5.dp)
     ) {
