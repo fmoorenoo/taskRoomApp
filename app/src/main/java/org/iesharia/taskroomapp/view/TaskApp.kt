@@ -1,6 +1,5 @@
 package org.iesharia.taskroomapp.view
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,6 +29,8 @@ import org.iesharia.taskroomapp.model.TaskType
 fun TaskApp(database: AppDatabase) {
     val taskDao = database.taskDao()
     val scope = rememberCoroutineScope()
+
+    // Variables de estado para manejar datos y entradas del usuario
     var tasks by remember { mutableStateOf(listOf<Task>()) }
     var taskTypes by remember { mutableStateOf(listOf<TaskType>()) }
     var newTaskName by remember { mutableStateOf("") }
@@ -37,6 +38,7 @@ fun TaskApp(database: AppDatabase) {
     var selectedTaskTypeId by remember { mutableStateOf<Int?>(null) }
     var newTaskDescription by remember { mutableStateOf("") }
     var showDescription by remember { mutableStateOf(false) }
+
     val context = LocalContext.current
 
     // Cargar tareas y tipos de tareas al iniciar
@@ -45,12 +47,14 @@ fun TaskApp(database: AppDatabase) {
         taskTypes = taskDao.getAllTaskTypes()
     }
 
+    // Contenedor principal
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFB6D8C1))
             .padding(16.dp)
     ) {
+        // Título de la pantalla
         Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)) {
             Text(
                 text = "Inicio",
@@ -64,6 +68,7 @@ fun TaskApp(database: AppDatabase) {
             )
         }
 
+        // Entrada para añadir tareas
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
@@ -80,22 +85,15 @@ fun TaskApp(database: AppDatabase) {
                 )
             )
             OutlinedTextField(
-                value = selectedTaskTypeId?.toString() ?: "",
+                modifier = Modifier.weight(0.6f),
+                value = if (selectedTaskTypeId != null) selectedTaskTypeId.toString() else "",
                 onValueChange = {},
                 enabled = false,
-                label = { Text(text = "Tipo") },
-                modifier = Modifier.weight(0.6f),
+                label = { Text("Tipo") },
                 shape = RoundedCornerShape(20.dp),
-                textStyle = TextStyle(
-                    textAlign = TextAlign.Center,
-                    fontSize = 22.sp,
-                    color = Color.Black
-                ),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFFCFF0D9)
-                )
+                textStyle = TextStyle(textAlign = TextAlign.Center, fontSize = 22.sp, color = Color.Black),
+                colors = TextFieldDefaults.colors(focusedContainerColor = Color(0xFFCFF0D9))
             )
-
             Spacer(modifier = Modifier.width(8.dp))
             IconButton(
                 onClick = {
@@ -122,6 +120,7 @@ fun TaskApp(database: AppDatabase) {
             }
         }
 
+        // Entrada para añadir una descripción opcional
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -140,7 +139,6 @@ fun TaskApp(database: AppDatabase) {
                         unfocusedContainerColor = Color(0xFFCFF0D9)
                     )
                 )
-
                 Spacer(modifier = Modifier.width(8.dp))
             }
             Text(
@@ -149,13 +147,14 @@ fun TaskApp(database: AppDatabase) {
                 fontSize = 17.sp,
                 color = Color.White,
                 modifier = Modifier
-                    .clip(shape = RoundedCornerShape(10.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .background(Color(0xFF3A83BD))
                     .clickable { showDescription = !showDescription }
                     .padding(horizontal = 8.dp, vertical = 4.dp)
             )
         }
 
+        // Entrada para añadir tipos de tareas
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
@@ -171,7 +170,6 @@ fun TaskApp(database: AppDatabase) {
                     unfocusedContainerColor = Color(0xFFCFF0D9)
                 )
             )
-
             Spacer(modifier = Modifier.width(8.dp))
             IconButton(
                 onClick = {
@@ -189,10 +187,8 @@ fun TaskApp(database: AppDatabase) {
                             newTaskTypeName = ""
                         }
                     } else {
-                        if (titleExists) {
-                            Toast.makeText(context, "El tipo de tarea ya existe", Toast.LENGTH_SHORT).show()
-                        }
-                        Toast.makeText(context, "Introduce un tipo válido", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,
+                            if (titleExists) "El tipo de tarea ya existe" else "Introduce un tipo válido", Toast.LENGTH_SHORT).show()
                     }
                 }, modifier = Modifier.size(50.dp)
             ) {
@@ -204,10 +200,9 @@ fun TaskApp(database: AppDatabase) {
                 )
             }
         }
-
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Mostrar tipos de tareas y tareas
+        // Mostrar contenido (tareas y tipos)
         ShowContent(
             database = database,
             tasks = tasks,
