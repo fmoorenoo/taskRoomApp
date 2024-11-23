@@ -15,7 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
@@ -81,12 +83,16 @@ fun TaskApp(database: AppDatabase) {
                 value = selectedTaskTypeId?.toString() ?: "",
                 onValueChange = {},
                 enabled = false,
-                label = { Text("Tipo(ID)") },
-                modifier = Modifier.weight(1f),
+                label = { Text(text = "Tipo") },
+                modifier = Modifier.weight(0.6f),
                 shape = RoundedCornerShape(20.dp),
+                textStyle = TextStyle(
+                    textAlign = TextAlign.Center,
+                    fontSize = 22.sp,
+                    color = Color.Black
+                ),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFFCFF0D9),
-                    unfocusedContainerColor = Color(0xFFCFF0D9)
+                    focusedContainerColor = Color(0xFFCFF0D9)
                 )
             )
 
