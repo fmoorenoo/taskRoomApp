@@ -89,9 +89,9 @@ fun TaskApp(database: AppDatabase) {
                 value = if (selectedTaskTypeId != null) selectedTaskTypeId.toString() else "",
                 onValueChange = {},
                 enabled = false,
-                label = { Text("Tipo") },
+                label = { Text(text = "Tipo", color = Color(0xFF598D61), fontWeight = FontWeight.Bold) },
                 shape = RoundedCornerShape(20.dp),
-                textStyle = TextStyle(textAlign = TextAlign.Center, fontSize = 22.sp, color = Color.Black),
+                textStyle = TextStyle(textAlign = TextAlign.Center, fontSize = 22.sp, color = Color(0xFF598D61)),
                 colors = TextFieldDefaults.colors(focusedContainerColor = Color(0xFFCFF0D9))
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -106,7 +106,7 @@ fun TaskApp(database: AppDatabase) {
                             newTaskDescription = ""
                         }
                     } else {
-                        Toast.makeText(context, "Introduce un nombre y selecciona un tipo", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Indica un nombre y un tipo", Toast.LENGTH_SHORT).show()
                     }
                 },
                 modifier = Modifier.size(50.dp)
