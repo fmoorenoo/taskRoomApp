@@ -2,7 +2,6 @@ package org.iesharia.taskroomapp.view
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -14,9 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
@@ -37,8 +34,6 @@ fun TaskApp(database: AppDatabase) {
     var newTaskTypeName by remember { mutableStateOf("") }
     var selectedTaskTypeId by remember { mutableStateOf<Int?>(null) }
     var newTaskDescription by remember { mutableStateOf("") }
-    var showDescription by remember { mutableStateOf(false) }
-
 
     val context = LocalContext.current
 
@@ -53,186 +48,187 @@ fun TaskApp(database: AppDatabase) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFB6D8C1))
-            .padding(16.dp)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Título de la pantalla
-        Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)) {
-            Text(
-                text = "Inicio",
-                fontWeight = FontWeight.Bold,
-                fontSize = 27.sp,
-                color = Color.White,
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(15.dp))
-                    .background(Color(0xFF598D61))
-                    .padding(horizontal = 15.dp, vertical = 7.dp)
-            )
-        }
-
-        // Entrada para añadir tareas
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
-        ) {
-            OutlinedTextField(
-                value = newTaskName,
-                onValueChange = { newTaskName = it },
-                label = { Text("Nueva tarea") },
-                modifier = Modifier.weight(2f).padding(end = 5.dp),
-                shape = RoundedCornerShape(20.dp),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFFCFF0D9),
-                    unfocusedContainerColor = Color(0xFFCFF0D9)
+        Row(modifier = Modifier.fillMaxWidth()) {
+            // Título de la pantalla
+            Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)) {
+                Text(
+                    text = "Inicio",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 27.sp,
+                    color = Color.White,
+                    modifier = Modifier
+                        .clip(shape = RoundedCornerShape(15.dp))
+                        .background(Color(0xFF598D61))
+                        .padding(horizontal = 15.dp, vertical = 5.dp)
                 )
-            )
+            }
         }
 
-        // Entrada para añadir una descripción opcional
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
+        // Card para añadir tareas
+        Card(
+            modifier = Modifier.fillMaxWidth().padding(5.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF74A87D)),
+            shape = RoundedCornerShape(15.dp)
         ) {
-            if (showDescription) {
+            Column(
+                modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Título
+                Text(
+                    text = "Crear nueva tarea",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Campo para el nombre de la tarea
+                OutlinedTextField(
+                    value = newTaskName,
+                    onValueChange = { newTaskName = it },
+                    label = { Text("Nombre de la tarea") },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(15.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color(0xFFF0F0F0),
+                        unfocusedContainerColor = Color(0xFFF8F8F8)
+                    )
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Campo para la descripción
                 OutlinedTextField(
                     value = newTaskDescription,
                     onValueChange = { newTaskDescription = it },
-                    label = { Text("Descripción") },
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(20.dp),
+                    label = { Text("Descripción (opcional)") },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(15.dp),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color(0xFFCFF0D9),
-                        unfocusedContainerColor = Color(0xFFCFF0D9)
+                        focusedContainerColor = Color(0xFFF0F0F0),
+                        unfocusedContainerColor = Color(0xFFF8F8F8)
                     )
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-            }
-            Text(
-                text = if (showDescription) "Ocultar" else "Añade una descripción",
-                fontWeight = FontWeight(500),
-                fontSize = 17.sp,
-                color = Color.White,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(Color(0xBA3CA3BB))
-                    .clickable { showDescription = !showDescription }
-                    .padding(horizontal = 8.dp, vertical = 4.dp)
-            )
-        }
-        Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)) {
-            Text(
-                text = "Selecciona un tipo",
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Color.White,
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(15.dp))
-                    .background(Color(0xFF598D61))
-                    .padding(horizontal = 15.dp, vertical = 7.dp)
-            )
-        }
+                Spacer(modifier = Modifier.height(16.dp))
 
-        ShowTaskTypes(
-            database = database,
-            taskTypes = taskTypes,
-            onUpdateTasks = { tasks = it },
-            onUpdateTaskTypes = { taskTypes = it },
-            onTaskTypeSelected = { selectedTaskTypeId = it?.id },
-            selectedTaskTypeId = selectedTaskTypeId
-        )
-
-
-
-        // Entrada para añadir tipos de tareas
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
-        ) {
-            OutlinedTextField(
-                value = newTaskTypeName,
-                onValueChange = { newTaskTypeName = it },
-                label = { Text("Nuevo tipo de tarea") },
-                modifier = Modifier.weight(1f),
-                shape = RoundedCornerShape(20.dp),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFFCFF0D9),
-                    unfocusedContainerColor = Color(0xFFCFF0D9)
+                // Sección para seleccionar tipo de tarea
+                Text(
+                    text = "Selecciona un tipo",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 17.sp,
+                    color = Color.Black,
+                    modifier = Modifier.align(Alignment.Start).padding(vertical = 8.dp)
                 )
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            IconButton(
-                onClick = {
-                    var titleExists = false
-                    taskTypes.forEach {
-                        if (it.title.lowercase() == newTaskTypeName) {
-                            titleExists = true
-                        }
-                    }
-                    if (newTaskTypeName.isNotBlank() && !titleExists) {
-                        scope.launch(Dispatchers.IO) {
-                            val newTaskType = TaskType(title = newTaskTypeName)
-                            taskDao.insertTaskType(newTaskType)
-                            taskTypes = taskDao.getAllTaskTypes()
-                            newTaskTypeName = ""
-                        }
-                    } else {
-                        Toast.makeText(context,
-                            if (titleExists) "El tipo de tarea ya existe" else "Introduce un tipo válido", Toast.LENGTH_SHORT).show()
-                    }
-                }, modifier = Modifier.size(50.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add",
-                    tint = Color(0xFF598D61),
-                    modifier = Modifier.size(50.dp)
+
+                // Mostrar tipos de tareas
+                ShowTaskTypes(
+                    database = database,
+                    taskTypes = taskTypes,
+                    onUpdateTasks = { tasks = it },
+                    onUpdateTaskTypes = { taskTypes = it },
+                    onTaskTypeSelected = { selectedTaskTypeId = it?.id },
+                    selectedTaskTypeId = selectedTaskTypeId
                 )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Botón de acción para añadir la tarea
+                Button(
+                    onClick = {
+                        if (newTaskName.isNotBlank() && selectedTaskTypeId != null) {
+                            scope.launch(Dispatchers.IO) {
+                                val newTask = Task(name = newTaskName, description = newTaskDescription, taskTypeId = selectedTaskTypeId!!)
+                                taskDao.insert(newTask)
+                                tasks = taskDao.getAllTasks()
+                                newTaskName = ""
+                                newTaskDescription = ""
+                            }
+                        } else {
+                            Toast.makeText(context, "Indica un nombre y un tipo de tarea.", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Añadir tarea",
+                        tint = Color.White
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = "Añadir tarea", color = Color.White, fontWeight = FontWeight.Bold)
+                }
             }
         }
+
+//        // Entrada para añadir tipos de tareas
+//        Row(
+//            verticalAlignment = Alignment.CenterVertically,
+//            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp)
+//        ) {
+//            OutlinedTextField(
+//                value = newTaskTypeName,
+//                onValueChange = { newTaskTypeName = it },
+//                label = { Text("Nuevo tipo de tarea") },
+//                modifier = Modifier.weight(1f),
+//                shape = RoundedCornerShape(20.dp),
+//                colors = TextFieldDefaults.colors(
+//                    focusedContainerColor = Color(0xFFCFF0D9),
+//                    unfocusedContainerColor = Color(0xFFCFF0D9)
+//                )
+//            )
+//            Spacer(modifier = Modifier.width(8.dp))
+//            IconButton(
+//                onClick = {
+//                    var titleExists = false
+//                    taskTypes.forEach {
+//                        if (it.title.lowercase() == newTaskTypeName) {
+//                            titleExists = true
+//                        }
+//                    }
+//                    if (newTaskTypeName.isNotBlank() && !titleExists) {
+//                        scope.launch(Dispatchers.IO) {
+//                            val newTaskType = TaskType(title = newTaskTypeName)
+//                            taskDao.insertTaskType(newTaskType)
+//                            taskTypes = taskDao.getAllTaskTypes()
+//                            newTaskTypeName = ""
+//                        }
+//                    } else {
+//                        Toast.makeText(context,
+//                            if (titleExists) "El tipo de tarea ya existe" else "Introduce un tipo válido", Toast.LENGTH_SHORT).show()
+//                    }
+//                }, modifier = Modifier.size(50.dp)
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Default.Add,
+//                    contentDescription = "Add",
+//                    tint = Color(0xFF598D61),
+//                    modifier = Modifier.size(50.dp)
+//                )
+//            }
+//        }
         Spacer(modifier = Modifier.height(8.dp))
 
 
-
-
-
-        IconButton(
-            onClick = {
-                if (newTaskName.isNotBlank() && selectedTaskTypeId != null) {
-                    scope.launch(Dispatchers.IO) {
-                        val newTask = Task(name = newTaskName, description = newTaskDescription, taskTypeId = selectedTaskTypeId!!)
-                        taskDao.insert(newTask)
-                        tasks = taskDao.getAllTasks()
-                        newTaskName = ""
-                        newTaskDescription = ""
-                    }
-                } else {
-                    Toast.makeText(context, "Introduce un nombre y selecciona un tipo", Toast.LENGTH_SHORT).show()
-                }
-            },
-            modifier = Modifier.size(50.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Add",
-                tint = Color(0xFF598D61),
-                modifier = Modifier.size(50.dp)
-            )
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)) {
+                Text(
+                    text = "Tareas",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                    modifier = Modifier
+                        .clip(shape = RoundedCornerShape(15.dp))
+                        .background(Color(0xFF598D61))
+                        .padding(horizontal = 15.dp, vertical = 7.dp)
+                )
+            }
         }
 
-        Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 5.dp)) {
-            Text(
-                text = "Tareas",
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Color.White,
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(15.dp))
-                    .background(Color(0xFF598D61))
-                    .padding(horizontal = 15.dp, vertical = 7.dp)
-            )
-        }
-        // Mostrar contenido (tareas y tipos)
+        // Mostrar tareas
         ShowTasks (
             database = database,
             tasks = tasks,
