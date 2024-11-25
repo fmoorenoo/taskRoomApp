@@ -44,67 +44,47 @@ fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> 
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.weight(1.5f).padding(horizontal = 8.dp).padding(bottom = 5.dp)
-            ) {
-                if (edit) {
-                    OutlinedTextField(
-                        value = editText,
-                        onValueChange = { editText = it },
-                        label = { Text("Edit title") },
-                        modifier = Modifier.weight(1f)
-                    )
-                } else {
-                    if (task_type.title.length > 13) {
-                        name = task_type.title.substring(0, 13) + "..."
-                    }
-                    Text(
-                        text = name,
-                        fontSize = 18.sp,
-                    )
+            if (edit) {
+                OutlinedTextField(
+                    value = editText,
+                    onValueChange = { editText = it },
+                    label = { Text("Edit title") },
+                    modifier = Modifier.weight(1f).padding(bottom = 5.dp, start = 5.dp)
+                )
+            } else {
+                if (task_type.title.length > 13) {
+                    name = task_type.title.substring(0, 13) + "..."
                 }
-
                 Text(
-                    text = "ID-${task_type.id}",
-                    fontWeight = FontWeight(500),
-                    fontSize = 19.sp,
-                    modifier = Modifier.padding(start = 8.dp)
+                    text = name,
+                    fontSize = 18.sp,
                 )
             }
-            Row(
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.weight(1f)
-
-            ) {
-                if (edit) {
-                    IconButton(onClick = {
-                        onEdit(editText)
-                        edit = false
-                    }) {
-                        Icon(Icons.Default.Check, contentDescription = "Save", tint = Color(0xFF4CAF50))
-                    }
-
-                    IconButton(onClick = {
-                        edit = false
-                        editText = task_type.title
-                    }) {
-                        Icon(Icons.Default.Close, contentDescription = "Cancel", tint = Color(0xFFFF5722))
-                    }
-                } else {
-                    IconButton(onClick = { edit = true }) {
-                        Icon(Icons.Default.Create, contentDescription = "Edit", tint = Color(0xFF3871AB))
-                    }
-                    IconButton(onClick = onDelete) {
-                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFB93E3E))
-                    }
+            if (edit) {
+                IconButton(onClick = {
+                    onEdit(editText)
+                    edit = false
+                }) {
+                    Icon(Icons.Default.Check, contentDescription = "Save", tint = Color(0xFF4CAF50))
                 }
-            }
+
+                IconButton(onClick = {
+                    edit = false
+                    editText = task_type.title
+                }) {
+                    Icon(Icons.Default.Close, contentDescription = "Cancel", tint = Color(0xFFFF5722))
+                }
+            } else {
+                IconButton(onClick = { edit = true }) {
+                    Icon(Icons.Default.Create, contentDescription = "Edit", tint = Color(0xFF3871AB))
+                }
+                IconButton(onClick = onDelete) {
+                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFB93E3E))
+                }
+        }
         }
     }
 }
