@@ -60,6 +60,7 @@ fun ShowContent(
                         scope.launch(Dispatchers.IO) {
                             taskDao.deleteTaskType(taskType)
                             onUpdateTaskTypes(taskDao.getAllTaskTypes())
+                            onUpdateTasks(taskDao.getAllTasks())
                         }
                     },
                     onEdit = { newTitle ->
