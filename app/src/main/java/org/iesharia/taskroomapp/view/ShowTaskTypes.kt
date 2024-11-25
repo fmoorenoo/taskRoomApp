@@ -28,7 +28,7 @@ fun ShowTaskTypes(
 
     Column(modifier = Modifier.fillMaxWidth()) {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+            columns = GridCells.Fixed(1),
             modifier = Modifier.fillMaxWidth().heightIn(0.dp, 165.dp),
             verticalArrangement = Arrangement.spacedBy(5.dp),
             horizontalArrangement = Arrangement.spacedBy(5.dp)
