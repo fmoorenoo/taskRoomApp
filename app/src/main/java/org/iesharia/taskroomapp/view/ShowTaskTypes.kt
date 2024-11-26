@@ -24,6 +24,7 @@ fun ShowTaskTypes(
     selectedTaskTypeId: Int?
 ) {
     val taskDao = database.taskDao()
+    val taskTypeDao = database.taskTypeDao()
     val scope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -38,16 +39,16 @@ fun ShowTaskTypes(
                     task_type = taskType,
                     onDelete = {
                         scope.launch(Dispatchers.IO) {
-                            taskDao.deleteTaskType(taskType)
-                            onUpdateTaskTypes(taskDao.getAllTaskTypes())
+                            taskTypeDao.deleteTaskType(taskType)
+                            onUpdateTaskTypes(taskTypeDao.getAllTaskTypes())
                             onUpdateTasks(taskDao.getAllTasks())
                         }
                     },
                     onEdit = { newTitle ->
                         scope.launch(Dispatchers.IO) {
                             val updatedTaskType = taskType.copy(title = newTitle)
-                            taskDao.updateTaskType(updatedTaskType)
-                            onUpdateTaskTypes(taskDao.getAllTaskTypes())
+                            taskTypeDao.updateTaskType(updatedTaskType)
+                            onUpdateTaskTypes(taskTypeDao.getAllTaskTypes())
                         }
                     },
                     isSelected = selectedTaskTypeId == taskType.id,

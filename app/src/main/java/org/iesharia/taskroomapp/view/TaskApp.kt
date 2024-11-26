@@ -26,6 +26,7 @@ import org.iesharia.taskroomapp.model.TaskType
 @Composable
 fun TaskApp(database: AppDatabase) {
     val taskDao = database.taskDao()
+    val taskTypeDao = database.taskTypeDao()
     val scope = rememberCoroutineScope()
 
     // Variables de estado para manejar datos y entradas del usuario
@@ -42,7 +43,7 @@ fun TaskApp(database: AppDatabase) {
     // Cargar tareas y tipos de tareas al iniciar
     LaunchedEffect(Unit) {
         tasks = taskDao.getAllTasks()
-        taskTypes = taskDao.getAllTaskTypes()
+        taskTypes = taskTypeDao.getAllTaskTypes()
     }
 
     // Contenedor principal
@@ -160,8 +161,8 @@ fun TaskApp(database: AppDatabase) {
                                 if (newTaskTypeName.isNotBlank() && !titleExists) {
                                     scope.launch(Dispatchers.IO) {
                                         val newTaskType = TaskType(title = newTaskTypeName)
-                                        taskDao.insertTaskType(newTaskType)
-                                        taskTypes = taskDao.getAllTaskTypes()
+                                        taskTypeDao.insertTaskType(newTaskType)
+                                        taskTypes = taskTypeDao.getAllTaskTypes()
                                         newTaskTypeName = ""
                                         showNewTypeField = !showNewTypeField
                                     }
