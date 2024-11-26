@@ -33,12 +33,13 @@ Partiremos de un borrador realizado en figma
 ## ⚙️ Funcionamiento
 La app se divide en:
 - Sección para agregar tareas y tipos de tareas
-- Lista de tipos de tareas (modificar y eliminar)
 - Lista de tareas (modificar y eliminar)
 
-El botón de añadir descripción, permite añadir un texto adicional a las tareas. En caso de dejarlo vacío, en la lista de tareas no aparecerá la opción desplegable.
+En caso de dejar vacío el campo de la descripción, en la lista de tareas no aparecerá la opción desplegable.
 
 ## 📷 Imágenes
 | Boceto en FigJam | Resultado |
 | -------------- | --------------- |
-| <img width="350" src="https://github.com/user-attachments/assets/b9be576e-597e-4c22-b509-42d6f1cb1f62"> | <img width="310" src="https://github.com/user-attachments/assets/b1df4915-210c-4bf3-966e-8650f269a6f3"> |
+| <img width="350" src="https://github.com/user-attachments/assets/b9be576e-597e-4c22-b509-42d6f1cb1f62"> | <img width="310" src="https://github.com/user-attachments/assets/bfd4dcd6-6c1f-44c1-93f5-ae8e779540a7"> |
+
+
