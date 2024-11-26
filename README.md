@@ -10,12 +10,18 @@ Implementaremos una aplicación de tareas siguiendo el modelo de datos:
 |description|	 
 |taskTypeId (FK) |	 
 
+- Ver, añadir, modificar, eliminar
+
+<br>
 
  |task_type	| 	
 |---|
 |id	|
 |título	|
 
+- Ver, añadir, modificar, eliminar
+
+<br>
 Partiremos de un borrador realizado en figma
 
 
@@ -36,6 +42,8 @@ La app se divide en:
 - Lista de tareas (modificar y eliminar)
 
 En caso de dejar vacío el campo de la descripción, en la lista de tareas no aparecerá la opción desplegable.
+
+<br>
 
 ## 📷 Imágenes
 | Boceto en FigJam | Resultado |
