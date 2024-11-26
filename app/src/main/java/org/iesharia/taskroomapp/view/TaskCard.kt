@@ -60,8 +60,8 @@ fun TaskCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (taskTypeTitle.length > 9) {
-                    typeName = taskTypeTitle.substring(0, 10) + "..."
+                if (taskTypeTitle.length > 8) {
+                    typeName = taskTypeTitle.substring(0, 8) + "..."
                 }
                 Text(
                     text = typeName,
