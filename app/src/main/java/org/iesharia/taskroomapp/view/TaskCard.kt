@@ -83,6 +83,7 @@ fun TaskCard(
             if (edit) {
                 OutlinedTextField(
                     value = editText,
+                    singleLine = true,
                     onValueChange = { editText = it },
                     label = { Text("Task Name") },
                     modifier = Modifier.fillMaxWidth()

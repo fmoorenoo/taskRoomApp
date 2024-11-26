@@ -57,7 +57,7 @@ fun TaskApp(database: AppDatabase) {
         // Card para añadir tareas
         Card(
             modifier = Modifier.fillMaxWidth().padding(5.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFF75A181)),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF8BC99C)),
             shape = RoundedCornerShape(15.dp)
         ) {
             Column(
@@ -68,7 +68,7 @@ fun TaskApp(database: AppDatabase) {
                 Text(
                     text = "Crear nueva tarea",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
+                    fontSize = 26.sp,
                     color = Color.Black
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -78,11 +78,12 @@ fun TaskApp(database: AppDatabase) {
                     value = newTaskName,
                     onValueChange = { newTaskName = it },
                     label = { Text("Nombre de la tarea") },
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(15.dp),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color(0xFFF0F0F0),
-                        unfocusedContainerColor = Color(0xFFF8F8F8)
+                        focusedContainerColor = Color(0xFFCFF0D9),
+                        unfocusedContainerColor = Color(0xFFCFF0D9),
                     )
                 )
                 Spacer(modifier = Modifier.height(4.dp))
@@ -95,8 +96,8 @@ fun TaskApp(database: AppDatabase) {
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(15.dp),
                     colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color(0xFFF0F0F0),
-                        unfocusedContainerColor = Color(0xFFF8F8F8)
+                        focusedContainerColor = Color(0xFFCFF0D9),
+                        unfocusedContainerColor = Color(0xFFCFF0D9)
                     )
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -134,13 +135,14 @@ fun TaskApp(database: AppDatabase) {
 
                 // Añadir nuevo tipo de tarea
                 if (showNewTypeField) {
-                    Spacer(modifier = Modifier.height(3.dp))
+                    Spacer(modifier = Modifier.height(5.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp)
                     ) {
                         OutlinedTextField(
                             value = newTaskTypeName,
+                            singleLine = true,
                             onValueChange = { newTaskTypeName = it },
                             label = { Text("Nuevo tipo de tarea") },
                             modifier = Modifier.weight(1f),
@@ -171,12 +173,12 @@ fun TaskApp(database: AppDatabase) {
                                         if (titleExists) "El tipo ya existe" else "Introduce un tipo válido", Toast.LENGTH_SHORT).show()
                                 }
                             },
-                            modifier = Modifier.size(50.dp)
+                            modifier = Modifier.size(50.dp).padding(top = 5.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
                                 contentDescription = "Añadir tipo de tarea",
-                                tint = Color(0xFFBF8AFF),
+                                tint = Color(0xFF2D65A4),
                                 modifier = Modifier.size(50.dp)
                             )
                         }
@@ -195,14 +197,18 @@ fun TaskApp(database: AppDatabase) {
                                 newTaskName = ""
                                 newTaskDescription = ""
                             }
+                            scope.launch(Dispatchers.Main) {
+                                Toast.makeText(context, "Tarea añadida con éxito", Toast.LENGTH_SHORT).show()
+                            }
                         } else {
-                            Toast.makeText(context, "Introduce un nombre y selecciona un tipo de tarea.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Indica un nombre y un tipo", Toast.LENGTH_SHORT).show()
                         }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF266FAF))
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 4.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2788DC))
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,

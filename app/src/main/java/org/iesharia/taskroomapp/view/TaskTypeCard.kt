@@ -37,9 +37,9 @@ fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> 
             .clickable { onSelect() }
             .border(width = 2.dp,
                 shape = RoundedCornerShape(5.dp),
-                color = if (isSelected) Color(0xFF507DE0) else Color.Unspecified),
+                color = if (isSelected) Color(0xFF7A98DC) else Color.Unspecified),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) Color(0xFF82BBD9) else Color(0xFFCFF0D9)
+            containerColor = if (isSelected) Color(0xFFC8DEEA) else Color(0xFFCFF0D9)
         ),
         shape = RoundedCornerShape(5.dp)
     ) {
@@ -53,6 +53,7 @@ fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> 
                 if (edit) {
                     OutlinedTextField(
                         value = editText,
+                        singleLine = true,
                         onValueChange = { editText = it },
                         label = { Text("Edit title") },
                         modifier = Modifier.padding(bottom = 8.dp, start = 5.dp)
@@ -87,9 +88,8 @@ fun TaskTypeCard(task_type: TaskType, onDelete: () -> Unit, onEdit: (String) -> 
                         onEdit(editText)
                         edit = false
                     }) {
-                        Icon(Icons.Default.Check, contentDescription = "Save", tint = Color(0xFF4CAF50))
+                        Icon(Icons.Default.Check, contentDescription = "Save", tint = Color(0xFF53D75A))
                     }
-
                     IconButton(onClick = {
                         edit = false
                         editText = task_type.title
